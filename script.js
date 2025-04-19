@@ -3,9 +3,9 @@ console.log("script.js loaded");
 document.addEventListener('DOMContentLoaded', () => {
   const clock = document.getElementById('clock');
   const body = document.body;
-  const searchInput = document.getElementById('search-input');
-  const iconGrid = document.getElementById('icon-grid');
-  const editModeBtn = document.getElementById('edit-mode-btn');
+  const searchInput = document.getElementById('search');
+  const iconGrid = document.getElementById('iconGrid');
+  const editModeBtn = document.getElementById('editToggle');
   let editMode = false;
 
   // Default icons setup
