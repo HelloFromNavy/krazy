@@ -1,3 +1,5 @@
+console.log("script.js loaded");
+
 document.addEventListener('DOMContentLoaded', () => {
   const clock = document.getElementById('clock');
   const body = document.body;
