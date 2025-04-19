@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+:root {
+  --bg: #ffffff;
+  --text: #000000;
+  --card: #f0f0f0;
+}
+
+.dark {
+  --bg: #1c1c1e;
+  --text: #ffffff;
+  --card: #2c2c2e;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+.clock {
+  font-size: 72px;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+.search-bar {
+  position: relative;
+  width: 90%;
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid #ccc;
+  border-radius: 40px;
+  font-size: 18px;
+  outline: none;
+  background-color: var(--card);
+  color: var(--text);
+}
+
+#suggestions {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+#suggestions li {
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+#suggestions li:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  width: 90%;
+  margin-bottom: 40px;
+}
+
+.icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--card);
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.icon:hover {
+  transform: scale(1.05);
+}
+
+.icon img {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+}
+
+.icon input {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+}
+
+#editToggle {
+  background: var(--card);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text);
+}
+
+#editToggle:hover {
+  opacity: 0.8;
+}
