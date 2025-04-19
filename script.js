@@ -1,117 +1,89 @@
-console.log("script.js loaded");
+body {
+  background-color: #121212;
+  color: white;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 20px;
+  transition: background-color 0.3s;
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-  const clock = document.getElementById('clock');
-  const body = document.body;
-  const searchInput = document.getElementById('search');
-  const iconGrid = document.getElementById('iconGrid');
-  const editModeBtn = document.getElementById('editToggle');
-  let editMode = false;
+body.dark {
+  background-color: #000;
+}
 
-  // Default icons setup
-  const defaultIcons = [
-    { url: 'https://youtube.com', title: 'YouTube', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg' },
-    { url: 'https://reddit.com', title: 'Reddit', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/reddit.svg' },
-    { url: 'https://mail.google.com', title: 'Gmail', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg' },
-    { url: 'https://twitter.com', title: 'Twitter', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/twitter.svg' },
-    { url: 'https://wikipedia.org', title: 'Wikipedia', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/wikipedia.svg' },
-    { url: 'https://github.com', title: 'GitHub', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg' },
-    { url: 'https://drive.google.com', title: 'Drive', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googledrive.svg' },
-    { url: 'https://news.google.com', title: 'News', icon: 'https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlenews.svg' }
-  ];
+.container {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
 
-  // Load icons from localStorage if available
-  const loadIcons = () => {
-    const savedIcons = JSON.parse(localStorage.getItem('icons'));
-    return savedIcons || defaultIcons;
-  };
+.clock {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
 
-  // Save icons to localStorage
-  const saveIcons = (icons) => {
-    localStorage.setItem('icons', JSON.stringify(icons));
-  };
+.search-bar {
+  position: relative;
+  margin-bottom: 20px;
+}
 
-  // Display icons
-  const displayIcons = (icons) => {
-    iconGrid.innerHTML = '';
-    icons.forEach((icon, index) => {
-      const a = document.createElement('a');
-      a.href = icon.url;
-      a.title = icon.title;
-      const img = document.createElement('img');
-      img.src = icon.icon;
-      img.alt = icon.title;
-      a.appendChild(img);
-      if (editMode) {
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'X';
-        deleteBtn.classList.add('delete-btn');
-        deleteBtn.onclick = (e) => {
-          e.preventDefault();
-          icons.splice(index, 1);
-          saveIcons(icons);
-          displayIcons(icons);
-        };
-        a.appendChild(deleteBtn);
-      }
-      iconGrid.appendChild(a);
-    });
-  };
+#search {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+}
 
-  // Toggle edit mode
-  editModeBtn.addEventListener('click', () => {
-    editMode = !editMode;
-    displayIcons(loadIcons());
-  });
+#suggestions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: white;
+  color: black;
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
 
-  // Update the clock every second
-  function updateClock() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const displayHour = (hours % 12 || 12);
-    clock.textContent = `${displayHour}:${minutes} ${ampm}`;
+#suggestions div {
+  padding: 10px;
+  cursor: pointer;
+}
 
-    // Theme switch
-    if (hours >= 6 && hours < 18) {
-      body.classList.remove('dark'); // Daytime
-    } else {
-      body.classList.add('dark'); // Nighttime
-    }
-  }
+#suggestions div:hover {
+  background-color: #eee;
+}
 
-  // Fetch Google search suggestions
-  function fetchSearchSuggestions(query) {
-    if (!query) return [];
-    const url = `https://suggestqueries.google.com/complete/search?client=firefox&q=${query}`;
-    return fetch(url)
-      .then((response) => response.json())
-      .then((data) => data[1]) // Extract suggestions
-      .catch(() => []);
-  }
+.icon-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
 
-  // Show search suggestions below the input
-  const showSearchSuggestions = (suggestions) => {
-    const suggestionBox = document.getElementById('suggestions');
-    suggestionBox.innerHTML = '';
-    suggestions.forEach(suggestion => {
-      const div = document.createElement('div');
-      div.textContent = suggestion;
-      suggestionBox.appendChild(div);
-    });
-  };
+.icon-grid a {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  position: relative;
+}
 
-  // Search input listener
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value;
-    fetchSearchSuggestions(query).then((suggestions) => {
-      showSearchSuggestions(suggestions);
-    });
-  });
+.icon-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
-  // Initial setup
-  updateClock();
-  setInterval(updateClock, 1000);
-  displayIcons(loadIcons());
-});
+.delete-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
